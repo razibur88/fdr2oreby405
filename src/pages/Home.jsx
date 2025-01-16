@@ -4,17 +4,16 @@ import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import Addsale from "../components/Addsale";
 import NewArrivals from "../components/NewArrivals";
-import Product from "../components/Product";
+import BestPhone from "../components/BestPhone";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
     <div>
-      <Header />
-      <Navbar />
       <Banner />
       <Addsale />
       <NewArrivals />
-      <Product />
+      <BestPhone />
     </div>
   );
 };

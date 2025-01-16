@@ -2,21 +2,15 @@ import React, { useEffect, useState } from "react";
 import Container from "./Container";
 import { FaCartArrowDown, FaHeart } from "react-icons/fa";
 import { IoMdGitCompare } from "react-icons/io";
-import productImg from "../assets/img.png";
 import axios from "axios";
 const Product = () => {
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products").then((res) =>
-      res.json().then((data) => setProductData(data.products))
-    );
+    axios
+      .get("https://dummyjson.com/products")
+      .then((data) => setProductData(data.data.products));
   }, []);
-  //   useEffect(() => {
-  //     axios
-  //       .get("https://dummyjson.com/products")
-  //       .then((data) => setProductData(data.data.products));
-  //   }, []);
 
   return (
     <div className="mt-[118px] mb-[120px] font-dm">
