@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { TbCategoryPlus } from "react-icons/tb";
+import React, { useContext, useState } from "react";
 import { FaRibbon } from "react-icons/fa6";
-import { IoGridSharp } from "react-icons/io5";
-import { FaThList } from "react-icons/fa";
-import { FaArrowLeft, FaArrowRight, FaHeart, FaCartPlus } from "react-icons/fa";
-import { FaCodeCompare } from "react-icons/fa6";
+import { TbCategoryPlus } from "react-icons/tb";
+import { Link } from "react-router-dom";
 import Container from "../components/Container";
+import { ApiData } from "../components/ContextApi";
+import Pagination from "../components/pagination/Pagination";
 import Post from "../components/pagination/Post";
 
 const Shop = () => {
+  let info = useContext(ApiData)
+  let [currentPage, setCurrentPage] = useState(1)
+  let [perPage, setPerPage] = useState(6)
+
+  let lastPage = currentPage * perPage; 
+  let firstPage = lastPage - perPage;
+  let allPage = info.slice(firstPage, lastPage);
+
+  let pageNumber = []
+
+  for(let i = 0; i < Math.ceil(info.length / perPage); i++){
+    pageNumber.push(i);
+  }
+
+  let paginate = (state)=>{
+    setCurrentPage(state + 1);
+  }
+
+  
+  
+
+
+
+
   return (
     <Container>
       <div className="max-w-container mx-auto py-[50px] flex justify-between">
         <div className="w-[15%]">
-          <ul className="mb-[50px]">
+          <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">
               Shop by Category
             </h2>
@@ -44,30 +66,7 @@ const Shop = () => {
               </Link>
             </li>
           </ul>
-          <ul className="mb-[50px]">
-            <h2 className="text-[20px] font-bold pb-[16px]">Shop by Color</h2>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000] flex gap-3 items-center">
-              <div className="w-[11px] h-[11px] bg-[#000] rounded-[50%]"></div>
-              <Link to="/shop">Color 1</Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000] flex gap-3 items-center">
-              <div className="w-[11px] h-[11px] bg-[#f00] rounded-[50%]"></div>
-              <Link to="/shop">Color 2</Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000] flex gap-3 items-center">
-              <div className="w-[11px] h-[11px] bg-[#0f0] rounded-[50%]"></div>
-              <Link to="/shop">Color 3</Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000] flex gap-3 items-center">
-              <div className="w-[11px] h-[11px] bg-[#00f] rounded-[50%]"></div>
-              <Link to="/shop">Color 4</Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000] flex gap-3 items-center">
-              <div className="w-[11px] h-[11px] bg-[#ff0] rounded-[50%]"></div>
-              <Link to="/shop">Color 5</Link>
-            </li>
-          </ul>
-          <ul className="mb-[50px]">
+          <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">Shop by Brand</h2>
             <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
               <Link to="/shop" className="flex gap-3 items-center">
@@ -95,7 +94,7 @@ const Shop = () => {
               </Link>
             </li>
           </ul>
-          <ul className="mb-[50px]">
+          <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">Shop by Price</h2>
             <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
               <Link to="/shop" className="flex gap-3 items-center">
@@ -124,7 +123,10 @@ const Shop = () => {
             </li>
           </ul>
         </div>
-        <Post />
+        <Post allPage={allPage} />
+      </div>
+      <div className="text-center pb-10">
+        <Pagination pageNumber={pageNumber} paginate={paginate} />
       </div>
     </Container>
   );
