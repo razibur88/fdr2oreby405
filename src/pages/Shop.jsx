@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaRibbon } from "react-icons/fa6";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
@@ -8,29 +8,50 @@ import Pagination from "../components/pagination/Pagination";
 import Post from "../components/pagination/Post";
 
 const Shop = () => {
-  let info = useContext(ApiData)
-  let [currentPage, setCurrentPage] = useState(1)
-  let [perPage, setPerPage] = useState(6)
+  let info = useContext(ApiData);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [perPage, setPerPage] = useState(6);
+  let [category, setCategory] = useState([]);
+  let [categoryFilter, setCategoryFilter] = useState([]);
+  let [brand, setBrand] = useState([]);
 
-  let lastPage = currentPage * perPage; 
+  let lastPage = currentPage * perPage;
   let firstPage = lastPage - perPage;
   let allPage = info.slice(firstPage, lastPage);
 
-  let pageNumber = []
+  let pageNumber = [];
 
-  for(let i = 0; i < Math.ceil(info.length / perPage); i++){
+  for (let i = 0; i < Math.ceil(info.length / perPage); i++) {
     pageNumber.push(i);
   }
 
-  let paginate = (state)=>{
+  let paginate = (state) => {
     setCurrentPage(state + 1);
-  }
+  };
 
-  
-  
+  let next = () => {
+    if (currentPage < pageNumber.length) {
+      setCurrentPage((state) => state + 1);
+    }
+  };
 
+  let previous = () => {
+    if (currentPage > 1) {
+      setCurrentPage((state) => state - 1);
+    }
+  };
 
+  useEffect(() => {
+    setCategory([...new Set(info.map((item) => item.category))]);
+    setBrand([...new Set(info.map((item) => item.brand))]);
+  }, [info]);
 
+  let handleCategory = (citem) => {
+    let cateFilter = info.filter((item) => item.category == citem);
+    setCategoryFilter(cateFilter);
+  };
+
+  console.log(categoryFilter);
 
   return (
     <Container>
@@ -40,59 +61,27 @@ const Shop = () => {
             <h2 className="text-[20px] font-bold pb-[16px]">
               Shop by Category
             </h2>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <TbCategoryPlus /> Category 1
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <TbCategoryPlus /> Category 2
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <TbCategoryPlus /> Category 3
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <TbCategoryPlus /> Category 4
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <TbCategoryPlus /> Category 5
-              </Link>
-            </li>
+            {category.map((item) => (
+              <li
+                onClick={() => handleCategory(item)}
+                className="py-[10px] text-[#6D6D6D] hover:text-[#000]"
+              >
+                <Link to="/shop" className="flex gap-3 items-center">
+                  <TbCategoryPlus /> {item}
+                </Link>
+              </li>
+            ))}
           </ul>
           <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">Shop by Brand</h2>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <FaRibbon /> Brand 1
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <FaRibbon /> Brand 2
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <FaRibbon /> Brand 3
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <FaRibbon /> Brand 4
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                <FaRibbon /> Brand 5
-              </Link>
-            </li>
+            {brand.map((item) => (
+              <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
+                <Link className="flex gap-3 items-center">
+                  <FaRibbon />
+                  {item}
+                </Link>
+              </li>
+            ))}
           </ul>
           <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">Shop by Price</h2>
@@ -123,10 +112,16 @@ const Shop = () => {
             </li>
           </ul>
         </div>
-        <Post allPage={allPage} />
+        <Post allPage={allPage} categoryFilter={categoryFilter} />
       </div>
       <div className="text-center pb-10">
-        <Pagination pageNumber={pageNumber} paginate={paginate} />
+        <Pagination
+          pageNumber={pageNumber}
+          paginate={paginate}
+          next={next}
+          currentPage={currentPage}
+          previous={previous}
+        />
       </div>
     </Container>
   );

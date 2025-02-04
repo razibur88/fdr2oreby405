@@ -1,24 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaCartPlus, FaHeart, FaThList } from "react-icons/fa";
 import { FaCodeCompare } from "react-icons/fa6";
 import { IoGridSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { ApiData } from "../ContextApi";
 
-const Post = ({ allPage }) => {
-  let data = useContext(ApiData);
-
+const Post = ({ allPage, categoryFilter }) => {
   
-  
+  let [active, setActive] = useState("");
+  let handleActive = () => {
+    setActive("active");
+  };
 
   return (
     <div className="w-[83%] p-[10px]">
       <div className="heading bg-[#ededed] flex items-center p-[10px]">
         <div className="icon w-1/2 flex gap-3">
-          <div className="p-[16px] hover:bg-[#000] hover:text-[#fff] duration-[1s]">
+          <div
+            onClick={() => setActive("")}
+            className="p-[16px] hover:bg-[#000] hover:text-[#fff] duration-[1s]"
+          >
             <IoGridSharp />
           </div>
-          <div className="p-[16px] hover:bg-[#000] hover:text-[#fff] duration-[1s]">
+          <div
+            onClick={handleActive}
+            className="p-[16px] hover:bg-[#000] hover:text-[#fff] duration-[1s]"
+          >
             <FaThList />
           </div>
         </div>
@@ -65,9 +72,13 @@ const Post = ({ allPage }) => {
           </div>
         </div>
       </div>
-      <div className="products flex flex-wrap justify-between">
+      <div
+        className={`${
+          active == "active" ? "w-full" : "flex flex-wrap justify-between"
+        }`}
+      >
         {allPage.map((item) => (
-          <div className="!w-[32%] bg-[#f2f2f2] p-[20px] my-[10px]">
+          <div className="w-[32%] bg-[#f2f2f2] p-[20px] my-[10px]">
             <div className="thumb relative group">
               <Link to={`${item.id}`}>
                 <img src={item.thumbnail} alt="" className="w-full h-[280px]" />
