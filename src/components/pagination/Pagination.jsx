@@ -4,6 +4,7 @@ const Pagination = ({ pageNumber, paginate, next, currentPage, previous }) => {
   return (
     <nav aria-label="Page navigation example">
       <ul class="inline-flex -space-x-px text-sm">
+        {pageNumber.length > 0 &&
         <li>
           <a
             onClick={previous}
@@ -12,13 +13,14 @@ const Pagination = ({ pageNumber, paginate, next, currentPage, previous }) => {
             Previous
           </a>
         </li>
+      }
         {pageNumber.map((item, i) => (
           <li>
             <a
               onClick={() => paginate(item)}
               className={`${
                 currentPage == i + 1
-                  ? "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  ? "flex items-center justify-center px-3 h-8 leading-tight text-white bg-[#262626] border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   : "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border"
               }`}
             >
@@ -26,7 +28,7 @@ const Pagination = ({ pageNumber, paginate, next, currentPage, previous }) => {
             </a>
           </li>
         ))}
-
+        {pageNumber.length > 0 &&
         <li>
           <a
             onClick={next}
@@ -35,6 +37,7 @@ const Pagination = ({ pageNumber, paginate, next, currentPage, previous }) => {
             Next
           </a>
         </li>
+        }
       </ul>
     </nav>
   );

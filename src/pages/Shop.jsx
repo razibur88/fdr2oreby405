@@ -21,7 +21,14 @@ const Shop = () => {
 
   let pageNumber = [];
 
-  for (let i = 0; i < Math.ceil(info.length / perPage); i++) {
+  for (
+    let i = 0;
+    i <
+    Math.ceil(
+      categoryFilter.length > 0 ? categoryFilter : info.length / perPage
+    );
+    i++
+  ) {
     pageNumber.push(i);
   }
 
@@ -51,7 +58,18 @@ const Shop = () => {
     setCategoryFilter(cateFilter);
   };
 
+
+  let handleBrand = (bitem) =>{
+    let brandFilter = info.filter((item) => item.brand == bitem); 
+    setCategoryFilter(brandFilter);
+  }
+
   console.log(categoryFilter);
+  
+ 
+  
+
+  
 
   return (
     <Container>
@@ -61,6 +79,7 @@ const Shop = () => {
             <h2 className="text-[20px] font-bold pb-[16px]">
               Shop by Category
             </h2>
+            <h2 onClick={() => setCategoryFilter("")}>Show All</h2>
             {category.map((item) => (
               <li
                 onClick={() => handleCategory(item)}
@@ -72,10 +91,13 @@ const Shop = () => {
               </li>
             ))}
           </ul>
-          <ul className="mb-[20px]">
-            <h2 className="text-[20px] font-bold pb-[16px]">Shop by Brand</h2>
+          <h2 className="text-[20px] font-bold pb-[16px]">Shop by Brand</h2>
+          <ul className="mb-[20px] h-[200px] overflow-y-scroll">
             {brand.map((item) => (
-              <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
+              <li
+                onClick={() => handleBrand(item)}
+                className="py-[10px] text-[#6D6D6D] hover:text-[#000]"
+              >
                 <Link className="flex gap-3 items-center">
                   <FaRibbon />
                   {item}
