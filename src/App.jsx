@@ -13,13 +13,15 @@ import Error from "./pages/Error";
 
 let router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Layouts />}>
-      <Route index element={<Home />}></Route>
-      <Route path="/shop" element={<Shop />}></Route>
-      <Route path="/shop/:id" element={<ProductDetails />}></Route>
-      <Route path="/cart" element={<Cart/>}></Route>
-      <Route path="*" element={<Error/>}></Route>
-    </Route>
+    <>
+      <Route element={<Layouts />}>
+        <Route index element={<Home />}></Route>
+        <Route path="/shop" element={<Shop />}></Route>
+        <Route path="/shop/:id" element={<ProductDetails />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
+      </Route>
+      <Route path="*" element={<Error />}></Route>
+    </>
   )
 );
 

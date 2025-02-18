@@ -2,22 +2,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import Container from "../components/Container";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../components/slice/productSlice";
 
 const ProductDetails = () => {
   let navigate = useNavigate();
+  let dispatch = useDispatch();
   let productId = useParams();
   let [singleProduct, setSingleProduct] = useState({});
-  
 
   let singleData = () => {
     axios
       .get(`https://dummyjson.com/products/${productId.id}`)
       .then((response) => {
         setSingleProduct(response.data);
-        
-        
       });
   };
 
@@ -25,25 +25,26 @@ const ProductDetails = () => {
     singleData();
   }, [productId]);
 
- 
-  let clientRating = Array.from({length:5},(_, index)=>{
-    let number = index + 0.5
-    return singleProduct.rating > index + 1 ? <IoMdStar /> : singleProduct.rating > number ? <IoMdStarHalf /> :<IoMdStarOutline />
-  })
+  let clientRating = Array.from({ length: 5 }, (_, index) => {
+    let number = index + 0.5;
+    return singleProduct.rating > index + 1 ? (
+      <IoMdStar />
+    ) : singleProduct.rating > number ? (
+      <IoMdStarHalf />
+    ) : (
+      <IoMdStarOutline />
+    );
+  });
 
-  let handleCart = ()=>{
+  let handleCart = (item) => {
+    dispatch(addToCart({ ...item, qun: 1 }));
     toast("Wow so easy!");
-    setTimeout(()=>{
-      navigate('/cart')
-    },[2000])
-  }
+    setTimeout(() => {
+      navigate("/cart");
+    }, [2000]);
+  };
 
-
-  
-  
-  
-
-// <IoMdStarHalf />
+  // <IoMdStarHalf />
 
   return (
     <section>
@@ -120,7 +121,7 @@ const ProductDetails = () => {
                 Add To Wishlist
               </a>
               <a
-                onClick={handleCart}
+                onClick={() => handleCart(singleProduct)}
                 className="py-5 px-10 bg-[#262626] text-white inline-block"
               >
                 Add To Cart

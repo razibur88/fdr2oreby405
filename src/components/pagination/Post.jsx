@@ -5,10 +5,9 @@ import { IoGridSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const Post = ({ allPage, categoryFilter }) => {
-  
   let [active, setActive] = useState("");
   let [showFilter, setShowFilter] = useState([]);
-  let [count, setCount] = useState(true)
+  let [count, setCount] = useState(true);
   let handleActive = () => {
     setActive("active");
   };
@@ -17,7 +16,17 @@ const Post = ({ allPage, categoryFilter }) => {
     let filterAmi = categoryFilter.slice(0, 5);
     setShowFilter(filterAmi);
   }, [categoryFilter]);
-  
+
+  let handleShow = () => {
+    setShowFilter(categoryFilter);
+    setCount(false);
+  };
+  let handleLess = () => {
+    let filterAmi = categoryFilter.slice(0, 5);
+    setShowFilter(filterAmi);
+    setCount(true);
+  };
+
   return (
     <div className="w-[83%] p-[10px]">
       <div className="heading bg-[#ededed] flex items-center p-[10px]">
@@ -68,8 +77,6 @@ const Post = ({ allPage, categoryFilter }) => {
               <option value="18" className="text-right">
                 18
               </option>
-            
-              
             </select>
           </div>
         </div>
@@ -115,12 +122,11 @@ const Post = ({ allPage, categoryFilter }) => {
             ))}
           </div>
           <div className="">
-            {count && categoryFilter.length > 5
-              ?
-              <h3>show all</h3>
-              : categoryFilter.length > 5 &&
-              <h2>Less</h2>
-            }
+            {count
+              ? categoryFilter.length > 5 && (
+                  <h3 onClick={handleShow}>show all</h3>
+                )
+              : categoryFilter.length > 5 && <h2 onClick={handleLess}>Less</h2>}
           </div>
         </>
       ) : (

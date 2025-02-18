@@ -1,6 +1,12 @@
+import Container from "../components/Container";
+
 const Cart = () => {
   return (
-    <div>Cart</div>
-  )
-}
-export default Cart
+    <div>
+      <Container>
+        <h2>hello</h2>
+      </Container>
+    </div>
+  );
+};
+export default Cart;
