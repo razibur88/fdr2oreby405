@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline } from "react-icons/io";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Container from "../components/Container";
-import { useDispatch } from "react-redux";
 import { addToCart } from "../components/slice/productSlice";
 
 const ProductDetails = () => {
@@ -37,7 +37,7 @@ const ProductDetails = () => {
   });
 
   let handleCart = (item) => {
-    dispatch(addToCart({ ...item, qun: 1 }));
+    dispatch(addToCart({...item, qun: 1 }));
     toast("Wow so easy!");
     setTimeout(() => {
       navigate("/cart");

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartItem: [],
+  cartItem: localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")):[],
 };
 
 export const productSlice = createSlice({
@@ -12,10 +12,11 @@ export const productSlice = createSlice({
       let findProduct = state.cartItem.findIndex(
         (item) => item.id == action.payload.id
       );
-      if (findProduct !== 1) {
-        console.log("ami ager ta");
+      if (findProduct !== -1) {
+        state.cartItem[findProduct].qun +=1
       } else {
-        console.log("ami new");
+        state.cartItem = [...state.cartItem, action.payload]
+        localStorage.setItem("cart", JSON.stringify(state.cartItem));
       }
       // console.log(findProduct);
       // state.cartItem = action.payload;
