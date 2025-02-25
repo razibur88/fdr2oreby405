@@ -1,13 +1,24 @@
 import { ImCross } from "react-icons/im";
 import { TfiArrowCircleDown, TfiArrowCircleUp } from "react-icons/tfi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Container from "../components/Container";
+import {
+  decrementProduct,
+  incrementProduct,
+} from "../components/slice/productSlice";
 
 const Cart = () => {
+  let dispatch = useDispatch();
   let data = useSelector((state) => state.product.cartItem);
-  console.log(data);
-  
+
+  let handleIncrement = (index) => {
+    dispatch(incrementProduct(index));
+  };
+  let handleDecrement = (index) => {
+    dispatch(decrementProduct(index));
+  };
+
   return (
     <div>
       <Container>
@@ -61,26 +72,36 @@ const Cart = () => {
                 <li className="w-[20%] font-bold p-[10px]">Quantity</li>
                 <li className="w-[20%] font-bold p-[10px]">Total</li>
               </ul>
-              {data.map((item) => (
+              {data.map((item, i) => (
                 <ul className="flex p-[10px] items-center justify-between">
                   <li className="w-[20%] font-bold p-[10px] flex justify-between items-center">
                     <div className="cross w-[10%]">
                       <ImCross />
                     </div>
                     <div className="thumb w-[20%]">
-                      <img src="..." alt="sample" className="w-full" />
+                      <img
+                        src={item.thumbnail}
+                        alt="sample"
+                        className="w-full"
+                      />
                     </div>
                     <h2 className="w-[65%]">{item.title}</h2>
                   </li>
-                  <li className="w-[20%] font-bold p-[10px]">00</li>
+                  <li className="w-[20%] font-bold p-[10px]">{item.price}</li>
                   <li className="w-[20%] font-bold p-[10px] relative">
-                    <h2 className="text-right px-[20px]">00</h2>
+                    <h2 className="text-left px-[20px]">{item.qun}</h2>
                     <div className="arrows flex flex-col absolute top-[50%] right-0 translate-y-[-50%]">
-                      <TfiArrowCircleUp />
-                      <TfiArrowCircleDown />
+                      <div className="" onClick={() => handleIncrement(i)}>
+                        <TfiArrowCircleUp />
+                      </div>
+                      <div className="" onClick={() => handleDecrement(i)}>
+                        <TfiArrowCircleDown />
+                      </div>
                     </div>
                   </li>
-                  <li className="w-[20%] font-bold p-[10px]">$0</li>
+                  <li className="w-[20%] font-bold p-[10px]">
+                    ${item.price * item.qun}
+                  </li>
                 </ul>
               ))}
             </div>

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartItem: localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")):[],
+  cartItem: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [],
 };
 
 export const productSlice = createSlice({
@@ -13,18 +15,29 @@ export const productSlice = createSlice({
         (item) => item.id == action.payload.id
       );
       if (findProduct !== -1) {
-        state.cartItem[findProduct].qun +=1
+        state.cartItem[findProduct].qun += 1;
       } else {
-        state.cartItem = [...state.cartItem, action.payload]
+        state.cartItem = [...state.cartItem, action.payload];
         localStorage.setItem("cart", JSON.stringify(state.cartItem));
       }
       // console.log(findProduct);
       // state.cartItem = action.payload;
     },
+    incrementProduct: (state, action) => {
+      state.cartItem[action.payload].qun += 1;
+      localStorage.setItem("cart", JSON.stringify(state.cartItem));
+    },
+    decrementProduct: (state, action) => {
+      if (state.cartItem[action.payload].qun > 1) {
+        state.cartItem[action.payload].qun -= 1;
+        localStorage.setItem("cart", JSON.stringify(state.cartItem));
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart } = productSlice.actions;
+export const { addToCart, incrementProduct, decrementProduct } =
+  productSlice.actions;
 
 export default productSlice.reducer;
