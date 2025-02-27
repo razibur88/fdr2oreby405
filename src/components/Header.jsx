@@ -24,10 +24,10 @@ const Header = () => {
                 <Link to="/shop">Shop</Link>
               </li>
               <li className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
-                About
+                <Link to="/about">About</Link>
               </li>
               <li className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
-                Contacts
+                <Link to="/contact">Contact</Link>
               </li>
               <li className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
                 Journal

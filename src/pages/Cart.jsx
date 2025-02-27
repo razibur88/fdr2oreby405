@@ -6,6 +6,7 @@ import Container from "../components/Container";
 import {
   decrementProduct,
   incrementProduct,
+  productRemove,
 } from "../components/slice/productSlice";
 
 const Cart = () => {
@@ -17,6 +18,9 @@ const Cart = () => {
   };
   let handleDecrement = (index) => {
     dispatch(decrementProduct(index));
+  };
+  let handleDelete = (i) => {
+    dispatch(productRemove(i));
   };
 
   return (
@@ -72,38 +76,51 @@ const Cart = () => {
                 <li className="w-[20%] font-bold p-[10px]">Quantity</li>
                 <li className="w-[20%] font-bold p-[10px]">Total</li>
               </ul>
-              {data.map((item, i) => (
-                <ul className="flex p-[10px] items-center justify-between">
-                  <li className="w-[20%] font-bold p-[10px] flex justify-between items-center">
-                    <div className="cross w-[10%]">
-                      <ImCross />
-                    </div>
-                    <div className="thumb w-[20%]">
-                      <img
-                        src={item.thumbnail}
-                        alt="sample"
-                        className="w-full"
-                      />
-                    </div>
-                    <h2 className="w-[65%]">{item.title}</h2>
-                  </li>
-                  <li className="w-[20%] font-bold p-[10px]">{item.price}</li>
-                  <li className="w-[20%] font-bold p-[10px] relative">
-                    <h2 className="text-left px-[20px]">{item.qun}</h2>
-                    <div className="arrows flex flex-col absolute top-[50%] right-0 translate-y-[-50%]">
-                      <div className="" onClick={() => handleIncrement(i)}>
-                        <TfiArrowCircleUp />
-                      </div>
-                      <div className="" onClick={() => handleDecrement(i)}>
-                        <TfiArrowCircleDown />
-                      </div>
-                    </div>
-                  </li>
-                  <li className="w-[20%] font-bold p-[10px]">
-                    ${item.price * item.qun}
-                  </li>
-                </ul>
-              ))}
+              {data.length > 0 ? (
+                <>
+                  {data.map((item, i) => (
+                    <ul className="flex p-[10px] items-center justify-between">
+                      <li className="w-[20%] font-bold p-[10px] flex justify-between items-center">
+                        <div
+                          onClick={() => handleDelete(item)}
+                          className="cross w-[10%]"
+                        >
+                          <ImCross />
+                        </div>
+                        <div className="thumb w-[20%]">
+                          <img
+                            src={item.thumbnail}
+                            alt="sample"
+                            className="w-full"
+                          />
+                        </div>
+                        <h2 className="w-[65%]">{item.title}</h2>
+                      </li>
+                      <li className="w-[20%] font-bold p-[10px]">
+                        {item.price}
+                      </li>
+                      <li className="w-[20%] font-bold p-[10px] relative">
+                        <h2 className="text-left px-[20px]">{item.qun}</h2>
+                        <div className="arrows flex flex-col absolute top-[50%] right-0 translate-y-[-50%]">
+                          <div className="" onClick={() => handleIncrement(i)}>
+                            <TfiArrowCircleUp />
+                          </div>
+                          <div className="" onClick={() => handleDecrement(i)}>
+                            <TfiArrowCircleDown />
+                          </div>
+                        </div>
+                      </li>
+                      <li className="w-[20%] font-bold p-[10px]">
+                        ${item.price * item.qun}
+                      </li>
+                    </ul>
+                  ))}
+                </>
+              ) : (
+                <div className="text-center">
+                  <h2>no product</h2>
+                </div>
+              )}
             </div>
             <div className="total flex justify-end py-[50px] flex-col items-end">
               <ul className="w-[20%]">
