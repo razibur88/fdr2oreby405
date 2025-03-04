@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Container from "./Container";
 import Flex from "./Flex";
 import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
@@ -6,12 +6,15 @@ import { FaSearch } from "react-icons/fa";
 import { FaUser, FaCartArrowDown } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { ApiData } from "./ContextApi";
 
 const Navbar = () => {
+  let info = useContext(ApiData)
   let data = useSelector((state) => state.product.cartItem);
   let [categoryShow, setCategoryShow] = useState(false);
   let [accShow, setAccShow] = useState(false);
   let [search, setSearch] = useState("");
+  let [searchFilter, setSearchFilter] = useState([])
   let cateRef = useRef();
   let accRef = useRef();
 
@@ -32,7 +35,14 @@ const Navbar = () => {
 
   let handleSearch = (e) => {
     setSearch(e.target.value);
+    if(e.target.value == ""){
+      setSearchFilter([])
+    }else{
+      let searchOne = info.filter((item)=>item.title.toLowerCase().includes(e.target.value.toLowerCase()))
+      setSearchFilter(searchOne);
+    }
   };
+  
 
   return (
     <div className="bg-[#F5F5F3] py-[25px]">
@@ -78,6 +88,18 @@ const Navbar = () => {
               />
               <div className=" absolute top-[50%] translate-y-[-50%] right-[20px]">
                 <FaSearch />
+              </div>
+
+              <div className="">
+                {searchFilter.length > 0 &&
+                <div className="h-[300px] w-[100%] bg-[gray] absolute left-0 top-[50px] z-[2] overflow-y-scroll">
+                  <ul>
+                    {searchFilter.map((item)=>(
+                    <li>{item.title}</li>
+                    ))}
+                  </ul>
+                </div>
+                }
               </div>
             </div>
           </div>
