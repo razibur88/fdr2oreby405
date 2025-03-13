@@ -23,6 +23,16 @@ const Cart = () => {
     dispatch(productRemove(i));
   };
 
+  let {totalPrice, totalQuantity} = data.reduce((acc, item)=>{
+    acc.totalPrice += item.price * item.qun
+    acc.totalQuantity += item.qun
+
+    return acc
+
+  },{totalPrice:0, totalQuantity:0})
+
+  let ami = totalPrice * 15 / 100
+
   return (
     <div>
       <Container>
@@ -124,11 +134,20 @@ const Cart = () => {
             </div>
             <div className="total flex justify-end py-[50px] flex-col items-end">
               <ul className="w-[20%]">
+                
                 <li className="flex gap-3 justify-between">
-                  <h2>Subtotal</h2> <h2>$0</h2>
+                  <h2>Quantity</h2> <h2>${totalQuantity}</h2>
+                </li>
+                
+                
+                <li className="flex gap-3 justify-between">
+                  <h2>Subtotal</h2> <h2>${totalPrice.toFixed(2)}</h2>
                 </li>
                 <li className="flex gap-3 justify-between">
-                  <h2>Total</h2> <h2>$0</h2>
+                  <h2>Vat</h2> <h2>${ ami.toFixed(2) }</h2>
+                </li>
+                <li className="flex gap-3 justify-between">
+                  <h2>Total</h2> <h2>${(totalPrice + ami).toFixed(2)}</h2>
                 </li>
               </ul>
               <Link

@@ -7,9 +7,11 @@ import { FaUser, FaCartArrowDown } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { ApiData } from "./ContextApi";
+import { useNavigate } from "react-router-dom"
 
 const Navbar = () => {
   let info = useContext(ApiData)
+  let navigate = useNavigate()
   let data = useSelector((state) => state.product.cartItem);
   let [categoryShow, setCategoryShow] = useState(false);
   let [accShow, setAccShow] = useState(false);
@@ -42,6 +44,13 @@ const Navbar = () => {
       setSearchFilter(searchOne);
     }
   };
+
+  let handleSingleItem = (id) =>{
+    navigate(`/shop/${id}`)
+    setSearchFilter([])
+    setSearch('')
+    
+  }
   
 
   return (
@@ -85,6 +94,7 @@ const Navbar = () => {
                 type="search"
                 placeholder="Search"
                 className="w-full h-[50px] pl-4 rounded-lg"
+                value={search}
               />
               <div className=" absolute top-[50%] translate-y-[-50%] right-[20px]">
                 <FaSearch />
@@ -95,7 +105,7 @@ const Navbar = () => {
                 <div className="h-[300px] w-[100%] bg-[gray] absolute left-0 top-[50px] z-[2] overflow-y-scroll">
                   <ul>
                     {searchFilter.map((item)=>(
-                    <li>{item.title}</li>
+                    <li onClick={()=>handleSingleItem(item.id)} className="py-2 text-white pl-3 cursor-pointer">{item.title}</li>
                     ))}
                   </ul>
                 </div>
