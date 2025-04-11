@@ -32,6 +32,17 @@ const Header = () => {
               <li className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
                 Journal
               </li>
+              <li to="/register" className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
+                
+                <Link to="/register">
+                Register
+                </Link>
+              </li>
+              <li className="font-dm text-[16px] hover:font-bold font-normal text-[#262626] px-6 duration-300 ease-in-out">
+                <Link to="/login">
+                Login
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="lg:hidden" onClick={() => setShow(!show)}>

@@ -8,9 +8,12 @@ const Post = ({ allPage, categoryFilter }) => {
   let [active, setActive] = useState("");
   let [showFilter, setShowFilter] = useState([]);
   let [count, setCount] = useState(true);
+
   let handleActive = () => {
     setActive("active");
   };
+
+  
 
   useEffect(() => {
     let filterAmi = categoryFilter.slice(0, 5);
@@ -26,6 +29,7 @@ const Post = ({ allPage, categoryFilter }) => {
     setShowFilter(filterAmi);
     setCount(true);
   };
+
 
   return (
     <div className="w-[83%] p-[10px]">
@@ -44,42 +48,7 @@ const Post = ({ allPage, categoryFilter }) => {
             <FaThList />
           </div>
         </div>
-        <div className="search w-1/2 flex justify-between">
-          <div className="opt w-[48%] flex justify-end gap-3">
-            <label htmlFor="cate">Sort By</label>
-            <select name="cate" id="cate" className="w-[70%]  ">
-              <option value="value1" className="text-right">
-                Sort 1
-              </option>
-              <option value="value2" className="text-right">
-                Sort 2
-              </option>
-              <option value="value3" className="text-right">
-                Sort 3
-              </option>
-              <option value="value4" className="text-right">
-                Sort 4
-              </option>
-              <option value="value5" className="text-right">
-                Sort 5
-              </option>
-            </select>
-          </div>
-          <div className="opt w-[48%] flex justify-end gap-3">
-            <label htmlFor="cateTwo">Show</label>
-            <select name="cateTwo" id="cateTwo" className="w-[70%]">
-              <option value="6" className="text-right">
-                6
-              </option>
-              <option value="12" className="text-right">
-                12
-              </option>
-              <option value="18" className="text-right">
-                18
-              </option>
-            </select>
-          </div>
-        </div>
+       
       </div>
       {showFilter.length > 0 ? (
         <>

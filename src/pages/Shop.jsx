@@ -14,6 +14,8 @@ const Shop = () => {
   let [category, setCategory] = useState([]);
   let [categoryFilter, setCategoryFilter] = useState([]);
   let [brand, setBrand] = useState([]);
+  let [low, setLow] = useState("")
+  let [high, setHigh] = useState("")
 
   let lastPage = currentPage * perPage;
   let firstPage = lastPage - perPage;
@@ -64,7 +66,13 @@ const Shop = () => {
     setCategoryFilter(brandFilter);
   }
 
-  console.log(categoryFilter);
+  let handlePrice = (value) =>{
+    setLow(value.low)
+    setHigh(value.high)
+    let priceFilter = info.filter((item)=> item.price > value.low && item.price < value.high)
+    setCategoryFilter(priceFilter);
+  }
+  
   
  
   
@@ -107,31 +115,14 @@ const Shop = () => {
           </ul>
           <ul className="mb-[20px]">
             <h2 className="text-[20px] font-bold pb-[16px]">Shop by Price</h2>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
+            <li onClick={()=>handlePrice({low:0, high:9})} className="py-[10px] text-[#6D6D6D] hover:text-[#000] cursor-pointer">
                 $0.00 - $9.99
-              </Link>
             </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
+            <li onClick={()=>handlePrice({low:10, high:20})} className="py-[10px] text-[#6D6D6D] hover:text-[#000] cursor-pointer">
                 $10.00 - $19.99
-              </Link>
             </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                $20.00 - $29.99
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                $30.00 - $39.99
-              </Link>
-            </li>
-            <li className="py-[10px] text-[#6D6D6D] hover:text-[#000]">
-              <Link to="/shop" className="flex gap-3 items-center">
-                $40.00 - Above
-              </Link>
-            </li>
+           
+            
           </ul>
         </div>
         <Post allPage={allPage} categoryFilter={categoryFilter} />

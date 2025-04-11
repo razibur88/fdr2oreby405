@@ -151,7 +151,7 @@ const Cart = () => {
                 </li>
               </ul>
               <Link
-                to="/"
+                to="/checkout"
                 className="py-[16px] px-[24px] bg-[#000] text-[#fff] font-bold my-[20px]"
               >
                 Proceed to Checkout
